@@ -11,9 +11,9 @@ public class Operation {
     String workPermitNumber;
     String field;
     String site;
-    String type;
+    int type;
 
-    public Operation(Date date, String workPermitNumber, String field, String site, String type) {
+    public Operation(Date date, String workPermitNumber, String field, String site, int type) {
         this.date = date;
         this.workPermitNumber = workPermitNumber;
         this.field = field;
@@ -55,7 +55,7 @@ public class Operation {
         this.site = site;
     }
 
-    public String getType(){
+    public int getType(){
         return type;
     }
 }

@@ -10,6 +10,8 @@ import java.util.Date;
  */
 
 public class Trip extends Operation implements Parcelable{
+    public static final int TRIP_KEY = 3;
+
     private String Actions;
     private String GeneratorSerial;
     private String Comments;
@@ -17,10 +19,13 @@ public class Trip extends Operation implements Parcelable{
     private Date informTime;
     private Date startTime;
 
+    public Trip() {
+    }
+
     public Trip(Date date, String workPermitNumber, String field, String site,
                 String actions, String generatorSerial, String comments,
                 String tripReasons, Date informTime, Date startTime) {
-        super(date, workPermitNumber, field, site, "Trip");
+        super(date, workPermitNumber, field, site, TRIP_KEY);
         Actions = actions;
         GeneratorSerial = generatorSerial;
         Comments = comments;
@@ -157,7 +162,7 @@ public class Trip extends Operation implements Parcelable{
     }
 
     @Override
-    public String getType(){
-        return "Trip";
+    public int getType(){
+        return TRIP_KEY;
     }
 }

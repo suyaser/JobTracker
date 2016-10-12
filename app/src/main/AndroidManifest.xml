@@ -22,11 +22,12 @@
         </activity>
         <activity android:name=".activities.InstallActivity" />
         <activity android:name=".activities.SignupActivity" />
-        <activity
-            android:name=".activities.LoginActivity"
-            android:label="@string/title_activity_login" />
+        <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.ServiceActivity" />
-        <activity android:name=".activities.TripActivity"></activity>
+        <activity android:name=".activities.TripActivity" />
+        <activity android:name=".activities.InstalledActivity" />
+        <activity android:name=".activities.ServicedActivity" />
+        <activity android:name=".activities.TripedActivity" />
     </application>
 
 </manifest>

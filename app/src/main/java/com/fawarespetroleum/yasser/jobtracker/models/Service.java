@@ -10,6 +10,8 @@ import java.util.Date;
  */
 
 public class Service extends Operation implements Parcelable{
+    public static final int SERVICE_KEY = 2;
+
     private String Actions;
     private String GeneratorSerial;
     private String Comments;
@@ -20,10 +22,13 @@ public class Service extends Operation implements Parcelable{
     private int HZ;
     private int batteryCharge;
 
+    public Service() {
+    }
+
     public Service(Date date, String workPermitNumber, String field, String site,
                    String actions, String generatorSerial, String comments, int RHS,
                    int oilPressure, int temp, int l2lVoltage, int HZ, int batteryCharge) {
-        super(date, workPermitNumber, field, site, "Service");
+        super(date, workPermitNumber, field, site, SERVICE_KEY);
         Actions = actions;
         GeneratorSerial = generatorSerial;
         Comments = comments;
@@ -191,7 +196,7 @@ public class Service extends Operation implements Parcelable{
     }
 
     @Override
-    public String getType(){
-        return "Service";
+    public int getType(){
+        return SERVICE_KEY;
     }
 }

@@ -10,6 +10,8 @@ import java.util.Date;
  */
 
 public class Install extends Operation implements Parcelable{
+    public static final int INSTALL_KEY = 1;
+
     private String contractor;
     private String generatorSerial;
     private int generatorSize;
@@ -19,10 +21,13 @@ public class Install extends Operation implements Parcelable{
     private Date FEExpiryDate;
     private String Comments;
 
+    public Install() {
+    }
+
     public Install(Date date, String workPermitNumber, String field, String site, String contractor,
                    String generatorSerial, int generatorSize, String tankSerial, String syncPanel,
                    String fireExtinguisher, Date FEExpiryDate, String comments) {
-        super(date, workPermitNumber, field, site, "Install");
+        super(date, workPermitNumber, field, site, INSTALL_KEY);
         this.contractor = contractor;
         this.generatorSerial = generatorSerial;
         this.generatorSize = generatorSize;
@@ -180,7 +185,7 @@ public class Install extends Operation implements Parcelable{
     }
 
     @Override
-    public String getType(){
-        return "INSTALL_TAG";
+    public int getType(){
+        return INSTALL_KEY;
     }
 }

@@ -8,8 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TableRow;
 
 import com.fawarespetroleum.yasser.jobtracker.R;
+import com.fawarespetroleum.yasser.jobtracker.models.Install;
+import com.fawarespetroleum.yasser.jobtracker.models.Service;
+import com.fawarespetroleum.yasser.jobtracker.models.Trip;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,10 +24,6 @@ import butterknife.Unbinder;
  */
 
 public class OperationSelectorDialog extends DialogFragment {
-
-    public static final int INSTALL_KEY = 1;
-    public static final int SERVICE_KEY = 2;
-    public static final int TRIP_KEY = 3;
 
     private OnDialogInteractionListener mListener;
 
@@ -62,7 +62,7 @@ public class OperationSelectorDialog extends DialogFragment {
         mInstallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onDialogInteraction(INSTALL_KEY);
+                mListener.onDialogInteraction(Install.INSTALL_KEY);
                 dismiss();
             }
         });
@@ -70,14 +70,14 @@ public class OperationSelectorDialog extends DialogFragment {
         mServiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onDialogInteraction(SERVICE_KEY);
+                mListener.onDialogInteraction(Service.SERVICE_KEY);
                 dismiss();
             }
         });
         mTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onDialogInteraction(TRIP_KEY);
+                mListener.onDialogInteraction(Trip.TRIP_KEY);
                 dismiss();
             }
         });

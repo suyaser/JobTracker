@@ -15,7 +15,10 @@ import android.widget.Button;
 
 import com.fawarespetroleum.yasser.jobtracker.R;
 import com.fawarespetroleum.yasser.jobtracker.adapters.OperationListAdapter;
+import com.fawarespetroleum.yasser.jobtracker.models.Install;
 import com.fawarespetroleum.yasser.jobtracker.models.Operation;
+import com.fawarespetroleum.yasser.jobtracker.models.Service;
+import com.fawarespetroleum.yasser.jobtracker.models.Trip;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -85,8 +88,22 @@ public class MainFragment extends Fragment implements OperationListAdapter.OnOpe
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                mOperationList.add(dataSnapshot.getValue(Operation.class));
-                mOperationListAdapter.notifyItemInserted(mOperationList.size()-1);
+                int type = dataSnapshot.child("type").getValue(Integer.class);
+                Log.d(TAG, "operation type : " + type);
+                switch (type){
+                    case Install.INSTALL_KEY:
+                        mOperationList.add(dataSnapshot.getValue(Install.class));
+                        mOperationListAdapter.notifyItemInserted(mOperationList.size()-1);
+                        break;
+                    case Service.SERVICE_KEY:
+                        mOperationList.add(dataSnapshot.getValue(Service.class));
+                        mOperationListAdapter.notifyItemInserted(mOperationList.size()-1);
+                        break;
+                    case Trip.TRIP_KEY:
+                        mOperationList.add(dataSnapshot.getValue(Trip.class));
+                        mOperationListAdapter.notifyItemInserted(mOperationList.size()-1);
+                        break;
+                }
             }
 
             @Override
@@ -131,7 +148,8 @@ public class MainFragment extends Fragment implements OperationListAdapter.OnOpe
     @Override
     public void onOperationClick(View view, int position) {
         if (mListener != null) {
-           // mListener.onFragmentInteraction(mOperationList.get(position));
+            Log.d(TAG, "onOperationClick Listener position : " + position);
+           mListener.onFragmentInteraction(mOperationList.get(position));
         }
     }
 
