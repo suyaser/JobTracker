@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "650278645156",
+    "firebase_url": "https://jobtracker-75fe9.firebaseio.com",
+    "project_id": "jobtracker-75fe9",
+    "storage_bucket": "jobtracker-75fe9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650278645156:android:f0c919fd34f70c3d",
+        "android_client_info": {
+          "package_name": "com.fawarespetroleum.yasser.jobtracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650278645156-vf8m2tsl7m8iplqipr5iao5rahjqu7s4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fawarespetroleum.yasser.jobtracker",
+            "certificate_hash": "159D03A3D04C587C1D440BACF422A8A4864DE0F5"
+          }
+        },
+        {
+          "client_id": "650278645156-k5p9ml26ravfoif56qlje2n4bb42v69b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA780pDO86i6J-bY9y5XnJL4Sd4jd7UJEY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

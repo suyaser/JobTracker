@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">JobTracker</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="report_button_text">report</string>
+    <string name="task_checkbox_txt">Task Done</string>
+    <string name="operation_type_text">Operation : %1$s</string>
+    <string name="work_permit_text">Work permit no: %1$s</string>
+    <string name="site_location_text">Site : %1$s</string>
+    <string name="publish_date_text">Task Published On : %1$s</string>
+    <string name="finished_date_text">Task Finished On : %1$s</string>
+    <string name="jobs_title">Jobs</string>
+    <string name="embloyee_name_Text">ahmed atef</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="Name">Name</string>
+    <string name="signup">SignUp</string>
+    <string name="no_account_yet_create_one">No account yet? Create one</string>
+    <string name="already_a_member_login">Already a member? Login</string>
+    <string name="install">Install</string>
+    <string name="service">Service</string>
+    <string name="trip">Trip</string>
+    <string name="sumbit">sumbit</string>
+    <string name="work_permit_number">Work permit number</string>
+    <string name="field">field</string>
+    <string name="site">site</string>
+    <string name="contractor">contractor</string>
+    <string name="genrator_serial_number">Genrator serial number</string>
+    <string name="generator_size">Generator size</string>
+    <string name="tank_serial_number">Tank serial number</string>
+    <string name="sync_panel">sync panel</string>
+    <string name="fire_extinguisher">Fire extinguisher</string>
+    <string name="f_e_expiry_date">F.E. expiry date</string>
+    <string name="comments">Comments</string>
+    <string name="r_h_s">RHS</string>
+    <string name="l_l_voltage">L-L voltage</string>
+    <string name="temperature">Temperature</string>
+    <string name="hz">HZ</string>
+    <string name="actions">actions</string>
+    <string name="battery_charge">Battery Charge</string>
+    <string name="trip_reasons">Trip reasons</string>
+    <string name="inform_time">Inform time</string>
+    <string name="start_time">Start Time</string>
+</resources>
