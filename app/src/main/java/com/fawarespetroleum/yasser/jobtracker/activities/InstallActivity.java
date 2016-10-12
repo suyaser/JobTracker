@@ -18,8 +18,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.fawarespetroleum.yasser.jobtracker.R.string.install;
-
 /**
  * Created by yasser on 11/10/2016.
  */
@@ -27,7 +25,7 @@ import static com.fawarespetroleum.yasser.jobtracker.R.string.install;
 public class InstallActivity extends AppCompatActivity {
 
     private static final String TAG = InstallActivity.class.getSimpleName();
-    public static final String Install_key = "Insert key";
+    public static final String INSTALL_TAG = "Insert key";
 
     @BindView(R.id.WorkPermitEditText)
     TextInputLayout mWorkPermitEditText;
@@ -63,9 +61,8 @@ public class InstallActivity extends AppCompatActivity {
     }
 
     public void SumbitData(View view) {
-
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(Install_key, getInstallObject());
+        returnIntent.putExtra(INSTALL_TAG, getInstallObject());
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }

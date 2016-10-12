@@ -16,14 +16,17 @@ import android.widget.Button;
 import com.fawarespetroleum.yasser.jobtracker.R;
 import com.fawarespetroleum.yasser.jobtracker.adapters.OperationListAdapter;
 import com.fawarespetroleum.yasser.jobtracker.models.Operation;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,19 +82,31 @@ public class MainFragment extends Fragment implements OperationListAdapter.OnOpe
         mOperationRecyclerView.setHasFixedSize(true);
         mOperationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot operation: dataSnapshot.getChildren()) {
-                    mOperationList.add(operation.getValue(Operation.class));
-                    mOperationListAdapter.notifyDataSetChanged();
-                }
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                mOperationList.add(dataSnapshot.getValue(Operation.class));
+                mOperationListAdapter.notifyItemInserted(mOperationList.size()-1);
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }

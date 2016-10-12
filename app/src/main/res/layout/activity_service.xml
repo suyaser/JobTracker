@@ -70,6 +70,7 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/r_h_s"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -81,6 +82,7 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="Oil pressure" />
         </android.support.design.widget.TextInputLayout>
 
@@ -92,6 +94,7 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/temperature" />
         </android.support.design.widget.TextInputLayout>
 
@@ -103,6 +106,7 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/l_l_voltage" />
         </android.support.design.widget.TextInputLayout>
 
@@ -114,6 +118,7 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/hz" />
         </android.support.design.widget.TextInputLayout>
 
@@ -125,6 +130,7 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/battery_charge" />
         </android.support.design.widget.TextInputLayout>
 

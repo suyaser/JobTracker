@@ -22,7 +22,7 @@ public class Install extends Operation implements Parcelable{
     public Install(Date date, String workPermitNumber, String field, String site, String contractor,
                    String generatorSerial, int generatorSize, String tankSerial, String syncPanel,
                    String fireExtinguisher, Date FEExpiryDate, String comments) {
-        super(date, workPermitNumber, field, site);
+        super(date, workPermitNumber, field, site, "Install");
         this.contractor = contractor;
         this.generatorSerial = generatorSerial;
         this.generatorSize = generatorSize;
@@ -181,6 +181,6 @@ public class Install extends Operation implements Parcelable{
 
     @Override
     public String getType(){
-        return "Install_key";
+        return "INSTALL_TAG";
     }
 }

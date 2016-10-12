@@ -23,7 +23,7 @@ public class Service extends Operation implements Parcelable{
     public Service(Date date, String workPermitNumber, String field, String site,
                    String actions, String generatorSerial, String comments, int RHS,
                    int oilPressure, int temp, int l2lVoltage, int HZ, int batteryCharge) {
-        super(date, workPermitNumber, field, site);
+        super(date, workPermitNumber, field, site, "Service");
         Actions = actions;
         GeneratorSerial = generatorSerial;
         Comments = comments;

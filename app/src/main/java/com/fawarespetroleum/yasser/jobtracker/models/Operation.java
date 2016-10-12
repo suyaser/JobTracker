@@ -11,12 +11,14 @@ public class Operation {
     String workPermitNumber;
     String field;
     String site;
+    String type;
 
-    public Operation(Date date, String workPermitNumber, String field, String site) {
+    public Operation(Date date, String workPermitNumber, String field, String site, String type) {
         this.date = date;
         this.workPermitNumber = workPermitNumber;
         this.field = field;
         this.site = site;
+        this.type = type;
     }
 
     public Operation(){}
@@ -54,6 +56,6 @@ public class Operation {
     }
 
     public String getType(){
-        return "Operation";
+        return type;
     }
 }

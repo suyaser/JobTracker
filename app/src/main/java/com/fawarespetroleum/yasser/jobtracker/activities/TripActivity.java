@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.fawarespetroleum.yasser.jobtracker.R;
-import com.fawarespetroleum.yasser.jobtracker.models.Service;
 import com.fawarespetroleum.yasser.jobtracker.models.Trip;
 
 import java.util.Date;
@@ -20,7 +19,7 @@ import butterknife.Unbinder;
 
 public class TripActivity extends AppCompatActivity {
     private static final String TAG = ServiceActivity.class.getSimpleName();
-    public static final String TRIP_KEY = "Trip key";
+    public static final String TRIP_TAG = "Trip key";
 
     @BindView(R.id.WorkPermitEditText)
     TextInputLayout mWorkPermitEditText;
@@ -53,7 +52,7 @@ public class TripActivity extends AppCompatActivity {
 
     public void SumbitData(View view) {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(TRIP_KEY, getTripObject());
+        returnIntent.putExtra(TRIP_TAG, getTripObject());
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }

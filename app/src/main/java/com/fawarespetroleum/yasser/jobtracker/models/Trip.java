@@ -20,7 +20,7 @@ public class Trip extends Operation implements Parcelable{
     public Trip(Date date, String workPermitNumber, String field, String site,
                 String actions, String generatorSerial, String comments,
                 String tripReasons, Date informTime, Date startTime) {
-        super(date, workPermitNumber, field, site);
+        super(date, workPermitNumber, field, site, "Trip");
         Actions = actions;
         GeneratorSerial = generatorSerial;
         Comments = comments;

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.fawarespetroleum.yasser.jobtracker.R;
-import com.fawarespetroleum.yasser.jobtracker.models.Install;
 import com.fawarespetroleum.yasser.jobtracker.models.Service;
 
 import java.util.Date;
@@ -19,7 +18,7 @@ import butterknife.Unbinder;
 
 public class ServiceActivity extends AppCompatActivity {
     private static final String TAG = ServiceActivity.class.getSimpleName();
-    public static final String Service_key = "Service key";
+    public static final String SERVICE_TAG = "Service key";
 
     @BindView(R.id.WorkPermitEditText)
     TextInputLayout mWorkPermitEditText;
@@ -58,7 +57,7 @@ public class ServiceActivity extends AppCompatActivity {
 
     public void SumbitData(View view) {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(Service_key, getServiceObject());
+        returnIntent.putExtra(SERVICE_TAG, getServiceObject());
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
