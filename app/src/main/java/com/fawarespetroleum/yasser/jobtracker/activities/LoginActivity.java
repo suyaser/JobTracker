@@ -2,18 +2,30 @@ package com.fawarespetroleum.yasser.jobtracker.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.PowerManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fawarespetroleum.yasser.jobtracker.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +37,6 @@ import butterknife.Unbinder;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private static final int REQUEST_SIGNUP = 0;
 
     @BindView(R.id.email)
     TextInputEditText mEmailEditText;
@@ -39,63 +50,124 @@ public class LoginActivity extends AppCompatActivity {
     Button mSignInButton;
 
     Unbinder unbinder;
+    private FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        auth = FirebaseAuth.getInstance();
+
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+
         setContentView(R.layout.activity_login);
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
 
         unbinder = ButterKnife.bind(this);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        auth.removeAuthStateListener(mAuthListener);
     }
 
     public void SignIn(View view) {
-        Log.d(TAG, "Login");
+        String email = mEmailEditText.getEditableText().toString();
+        String password = mPasswordEditText.getEditableText().toString();
 
+        if(!checkEmail(email)) {
+            return;
+        }
+        if(!checkPassword(password)) {
+            return;
+        }
+
+        mSignInProgressBar.setVisibility(View.VISIBLE);
         mSignInButton.setEnabled(false);
+        mEmailEditText.setEnabled(false);
+        mPasswordEditText.setEnabled(false);
+        mSignUpTextView.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        mSignInProgressBar.setVisibility(View.GONE);
+                        mSignInButton.setEnabled(true);
+                        mEmailEditText.setEnabled(true);
+                        mPasswordEditText.setEnabled(true);
+                        mSignUpTextView.setEnabled(true);
+                    }
+                });
 
-        onLoginSuccess();
-        progressDialog.dismiss();
+
+    }
+
+    private boolean checkPassword(String password) {
+        if (password.isEmpty() || !isPasswordValid(password)) {
+            mPasswordEditText.setError(getString(R.string.err_msg_password));
+            requestFocus(mPasswordEditText);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isPasswordValid(String password) {
+        return (password.length() >= 6);
+    }
+
+    private boolean checkEmail(String email) {
+        if (email.isEmpty() || !isEmailValid(email)) {
+            mEmailEditText.setError(getString(R.string.err_msg_email));
+            requestFocus(mEmailEditText);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isEmailValid(String email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
     }
 
     public void SignUp(View view) {
         Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-        startActivityForResult(intent, REQUEST_SIGNUP);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
-        }
-    }
-
-    public void onLoginSuccess() {
-        mSignInButton.setEnabled(true);
-        finish();
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
-        mSignInButton.setEnabled(true);
-    }
-
-    @Override
-    public void onBackPressed() {
-        // disable going back to the MainActivity
-        moveTaskToBack(true);
+        startActivity(intent);
     }
 }
 

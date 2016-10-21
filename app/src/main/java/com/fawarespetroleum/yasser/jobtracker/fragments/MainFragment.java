@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,8 +43,6 @@ public class MainFragment extends Fragment implements OperationListAdapter.OnOpe
 
     @BindView(R.id.OperationsList)
     RecyclerView mOperationRecyclerView;
-    @BindView(R.id.ReportButton)
-    Button mReportButton;
 
     Unbinder unbinder;
     private OperationListAdapter mOperationListAdapter;
@@ -65,15 +65,6 @@ public class MainFragment extends Fragment implements OperationListAdapter.OnOpe
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
-
-        mReportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                OperationSelectorDialog operationSelectorDialog = new OperationSelectorDialog();
-                operationSelectorDialog.show(fm, "selector Dialog");
-            }
-        });
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Operations");

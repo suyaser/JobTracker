@@ -17,7 +17,7 @@ public class TripedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_triped);
 
-        Trip trip = (Trip) getIntent().getParcelableExtra(TripActivity.TRIP_TAG);
+        Trip trip = getIntent().getParcelableExtra(TripActivity.TRIP_TAG);
         if (savedInstanceState == null) {
             startServicedFragment(trip);
         }

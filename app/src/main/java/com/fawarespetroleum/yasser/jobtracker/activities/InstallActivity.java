@@ -1,18 +1,32 @@
 package com.fawarespetroleum.yasser.jobtracker.activities;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 
 import com.fawarespetroleum.yasser.jobtracker.R;
+import com.fawarespetroleum.yasser.jobtracker.fragments.OperationSelectorDialog;
 import com.fawarespetroleum.yasser.jobtracker.models.Install;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,10 +59,13 @@ public class InstallActivity extends AppCompatActivity {
     TextInputLayout mSyncPanelEditText;
     @BindView(R.id.FireExtinguisherEditText)
     TextInputLayout mFireExtinguisherEditText;
-    @BindView(R.id.FEExpireDate)
-    DatePicker mFEExpireDate;
+    @BindView(R.id.FEExpireDateEditText)
+    TextInputEditText mFEExpireDateEditText;
     @BindView(R.id.CommentsEditText)
     TextInputLayout mCommentsEditText;
+
+    private DatePickerDialog expiryDatePickerDialog;
+    private SimpleDateFormat dateFormatter;
 
     Unbinder unbinder;
 
@@ -58,13 +75,44 @@ public class InstallActivity extends AppCompatActivity {
         setContentView(R.layout.activity_install);
 
         unbinder = ButterKnife.bind(this);
+
+        mFEExpireDateEditText.setInputType(InputType.TYPE_NULL);
+        mFEExpireDateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                expiryDatePickerDialog.show();
+            }
+        });
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+        setDateTimeField();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.MenuBar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
     }
 
-    public void SumbitData(View view) {
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra(INSTALL_TAG, getInstallObject());
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_add, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sumbit:
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra(INSTALL_TAG, getInstallObject());
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private Install getInstallObject() {
@@ -79,7 +127,13 @@ public class InstallActivity extends AppCompatActivity {
         String tankSize = mTankSerialEditText.getEditText().getText().toString();
         String syncPanel = mSyncPanelEditText.getEditText().getText().toString();
         String fireExtinguisher = mFireExtinguisherEditText.getEditText().getText().toString();
-        Date feExpiryDate = new Date(mFEExpireDate.getMinDate());
+        Date feExpiryDate = null;
+        try {
+            feExpiryDate = mFEExpireDateEditText.getText().toString().matches("") ? null :
+                    dateFormatter.parse(mFEExpireDateEditText.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         String comments = mCommentsEditText.getEditText().getText().toString();
         return new Install(date,
                 workPermitNO,
@@ -93,5 +147,18 @@ public class InstallActivity extends AppCompatActivity {
                 fireExtinguisher,
                 feExpiryDate,
                 comments);
+    }
+
+    private void setDateTimeField() {
+
+        Calendar newCalendar = Calendar.getInstance();
+        expiryDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                mFEExpireDateEditText.setText(dateFormatter.format(newDate.getTime()));
+            }
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 }

@@ -17,7 +17,7 @@ public class InstalledActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_installed);
 
-        Install install = (Install) getIntent().getParcelableExtra(InstallActivity.INSTALL_TAG);
+        Install install = getIntent().getParcelableExtra(InstallActivity.INSTALL_TAG);
         if (savedInstanceState == null) {
             startInstalledFragment(install);
         }

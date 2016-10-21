@@ -4,11 +4,32 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="report_button_text">report</string>
     <string name="task_checkbox_txt">Task Done</string>
+
+    <!-- text format strings -->
     <string name="operation_type_text">Operation : %1$s</string>
     <string name="work_permit_text">Work permit no: %1$s</string>
     <string name="site_location_text">Site : %1$s</string>
     <string name="publish_date_text">Task Published On : %1$s</string>
-    <string name="finished_date_text">Task Finished On : %1$s</string>
+    <string name="finished_date_text">Task finished on : %1$s</string>
+    <string name="trip_reasons_text">Trip reasons : %1$s</string>
+    <string name="actions_text">Actions : %1$s</string>
+    <string name="gen_serial_text">Generator S/N : %1$s</string>
+    <string name="comments_text">Comments : %1$s</string>
+    <string name="start_time_text">Start time : %1$s</string>
+    <string name="inform_time_text">Inform time : %1$s</string>
+    <string name="contractor_text">Contractor : %1$s</string>
+    <string name="gen_size_text">Generator size : %1$s</string>
+    <string name="tank_serial_text">Tank serial : %1$s</string>
+    <string name="sync_panel_text">Sync panel :</string>
+    <string name="fire_extinguisher_text">Fire extinguisher serial : %1$s</string>
+    <string name="fe_expiry_text">Fire extinguisher expiry date : %1$s</string>
+    <string name="rhs_text">RHS : %1$s</string>
+    <string name="oil_pressure_text">Oil pressure : %1$s</string>
+    <string name="temp_text">Temperature : %1$s</string>
+    <string name="l2l_voltage_text">L2L Voltage : %1$s</string>
+    <string name="hz_text">HZ : %1$s</string>
+    <string name="battery_charge_text">Battery charge : %1$s</string>
+
     <string name="jobs_title">Jobs</string>
     <string name="embloyee_name_Text">ahmed atef</string>
     <string name="title_activity_login">Sign in</string>
@@ -55,4 +76,18 @@
     <string name="start_time">Start Time</string>
     <string name="title_activity_serviced">ServicedActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="err_msg_password">password less than 6 characters</string>
+    <string name="err_msg_email">enter a valid email</string>
+    <string name="action_add">add</string>
+    <string name="action_sumbit">sumbit</string>
+    <string name="action_edit">edit</string>
+    <string name="action_sign_out">Sign out</string>
+    <string name="err_msg_email_collision">Email already registered to another user</string>
+    <string name="err_msg_weak_pass">choose Stronger password</string>
+    <string name="err_msg_email_malformed">Use a valid email address</string>
+    <string name="action_create_excel">Create Excel</string>
+    <string name="alert_dialog_ok">Ok</string>
+    <string name="alert_dialog_cancel">Cancel</string>
+    <string name="choose_file_name">Choose file name</string>
+    <string name="action_excel_files">Excel files</string>
 </resources>

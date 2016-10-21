@@ -48,7 +48,7 @@ public class OperationListAdapter extends RecyclerView.Adapter<OperationListAdap
 
         holder.mPublishDateTextView.setText(
                 String.format(fragment.getResources().getString(R.string.publish_date_text)
-        , mDataFormat.format("dd-MM-yyyy", operation.getDate())));
+        , DateFormat.format("dd-MM-yyyy", operation.getDate())));
 
         holder.mSiteLocationTextView.setText(
                 String.format(fragment.getResources().getString(R.string.site_location_text)
@@ -58,7 +58,7 @@ public class OperationListAdapter extends RecyclerView.Adapter<OperationListAdap
                 ,operation.getWorkPermitNumber()));
         holder.mOperationTypeTextView.setText(
                 String.format(fragment.getResources().getString(R.string.operation_type_text)
-                ,operation.getType()));
+                ,operation.getType() == 1 ? "Install": operation.getType() == 2 ? "service": "trip"));
 
     }
 

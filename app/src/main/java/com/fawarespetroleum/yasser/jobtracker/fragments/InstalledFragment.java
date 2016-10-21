@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -64,21 +69,52 @@ public class InstalledFragment extends Fragment {
 
         mInstall = getArguments().getParcelable(InstallActivity.INSTALL_TAG);
 
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.MenuBar);
+        setHasOptionsMenu(true);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         populateViews();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                //TODO edit opertaion
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_operation, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void populateViews() {
         DateFormat dataFormat = new DateFormat();
 
-        mWorkPermitTextView.setText(mInstall.getWorkPermitNumber().matches("") ? "N/A" : mInstall.getWorkPermitNumber());
-        mSiteLocationTextView.setText(mInstall.getField().matches("") ? "N/A" : mInstall.getField()+"_"+mInstall.getSite());
-        mContractorTextView.setText(mInstall.getContractor().matches("") ? "N/A" : mInstall.getContractor());
-        mGenSetSerialTextView.setText(mInstall.getGeneratorSerial().matches("") ? "N/A" : mInstall.getGeneratorSerial());
-        mGenSetSizeTextView.setText(mInstall.getGeneratorSize() == -1 ? "N/A" : String.valueOf(mInstall.getGeneratorSize()+" mVA"));
-        mTankSerialTextView.setText(mInstall.getTankSerial().matches("") ? "N/A" : mInstall.getTankSerial());
-        mSyncPanelTextView.setText(mInstall.getSyncPanel().matches("") ? "N/A" : mInstall.getSyncPanel());
-        mFireExtinguisherTextView.setText(mInstall.getFireExtinguisher().matches("") ? "N/A" : mInstall.getFireExtinguisher());
-        mFEExpireDate.setText(mInstall.getFEExpiryDate() == null ? "N/A" : dataFormat.format("dd-MM-yyyy",mInstall.getFEExpiryDate()));
-        mCommentsTextView.setText(mInstall.getComments().matches("") ? "N/A" : mInstall.getComments());
+        mWorkPermitTextView.setText(String.format(getString(R.string.work_permit_text,
+                mInstall.getWorkPermitNumber().matches("") ? "N/A" : mInstall.getWorkPermitNumber())));
+        mSiteLocationTextView.setText(String.format(getString(R.string.site_location_text,
+                mInstall.getField().matches("") ? "N/A" : mInstall.getField() + "_" + mInstall.getSite())));
+        mContractorTextView.setText(String.format(getString(R.string.contractor_text),
+                mInstall.getContractor().matches("") ? "N/A" : mInstall.getContractor()));
+        mGenSetSerialTextView.setText(String.format(getString(R.string.gen_serial_text,
+                mInstall.getGeneratorSerial().matches("") ? "N/A" : mInstall.getGeneratorSerial())));
+        mGenSetSizeTextView.setText(String.format(getString(R.string.gen_size_text,
+                mInstall.getGeneratorSize() == -1 ? "N/A" : String.valueOf(mInstall.getGeneratorSize() + " kVA"))));
+        mTankSerialTextView.setText(String.format(getString(R.string.tank_serial_text,
+                mInstall.getTankSerial().matches("") ? "N/A" : mInstall.getTankSerial())));
+        mSyncPanelTextView.setText(String.format(getString(R.string.sync_panel_text,
+                mInstall.getSyncPanel().matches("") ? "N/A" : mInstall.getSyncPanel())));
+        mFireExtinguisherTextView.setText(String.format(getString(R.string.fire_extinguisher_text,
+                mInstall.getFireExtinguisher().matches("") ? "N/A" : mInstall.getFireExtinguisher())));
+        mFEExpireDate.setText(String.format(getString(R.string.fe_expiry_text,
+                mInstall.getFEExpiryDate() == null ? "N/A" : DateFormat.format("dd-MM-yyyy", mInstall.getFEExpiryDate()))));
+        mCommentsTextView.setText(String.format(getString(R.string.comments_text,
+                mInstall.getComments().matches("") ? "N/A" : mInstall.getComments())));
     }
 }

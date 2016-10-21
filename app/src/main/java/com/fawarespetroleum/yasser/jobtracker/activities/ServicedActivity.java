@@ -17,7 +17,7 @@ public class ServicedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serviced);
 
-        Service service = (Service) getIntent().getParcelableExtra(ServiceActivity.SERVICE_TAG);
+        Service service = getIntent().getParcelableExtra(ServiceActivity.SERVICE_TAG);
         if (savedInstanceState == null) {
             startServicedFragment(service);
         }
