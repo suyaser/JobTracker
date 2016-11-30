@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/generatorSerialEditText"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:hint="Gen serial Number"
+    android:layout_margin="16dp"/>

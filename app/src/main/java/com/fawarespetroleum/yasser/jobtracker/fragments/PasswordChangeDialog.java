@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.fawarespetroleum.yasser.jobtracker.R;
@@ -17,26 +18,27 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created by yasser on 21/10/2016.
+ * Created by yasser on 11/11/2016.
  */
-public class ExcelNamerDialog extends DialogFragment {
 
-    private ExcelNamerDialog.OnDialogInteractionListener mListener;
+public class PasswordChangeDialog extends DialogFragment {
+
+    private OnDialogInteractionListener mListener;
 
     @BindView(R.id.PasswordEditText)
-    TextInputLayout mExcelEditText;
+    TextInputLayout mPasswordEditText;
     @BindView(R.id.ok_button)
     Button mOkButton;
 
     Unbinder unbinder;
 
-    public ExcelNamerDialog() {
+    public PasswordChangeDialog() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_excel_name, container);
+        return inflater.inflate(R.layout.dialog_password_change, container);
     }
 
     @Override
@@ -48,21 +50,38 @@ public class ExcelNamerDialog extends DialogFragment {
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mExcelEditText.getEditText().getText().toString().trim().matches("")) {
-                    dismiss();
-                }else{
-                    mListener.onDialogInteraction(mExcelEditText.getEditText().getText().toString().trim());
+                if (checkPassword(mPasswordEditText.getEditText().getText().toString().trim())) {
+                    mListener.onDialogInteraction(mPasswordEditText.getEditText().getText().toString().trim());
                     dismiss();
                 }
             }
         });
     }
 
+    private boolean checkPassword(String password) {
+        if (password.isEmpty() || !isPasswordValid(password)) {
+            mPasswordEditText.setError(getString(R.string.err_msg_password));
+            requestFocus(mPasswordEditText);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isPasswordValid(String password) {
+        return (password.length() >= 6);
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ExcelNamerDialog.OnDialogInteractionListener) {
-            mListener = (ExcelNamerDialog.OnDialogInteractionListener) context;
+        if (context instanceof OnDialogInteractionListener) {
+            mListener = (OnDialogInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnDialogInteractionListener");
@@ -77,6 +96,6 @@ public class ExcelNamerDialog extends DialogFragment {
     }
 
     public interface OnDialogInteractionListener {
-        void onDialogInteraction(String excelFileName);
+        void onDialogInteraction(String password);
     }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        app:showAsAction="always"
+        android:title="search" />
+    <item android:id="@+id/action_new_excel"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_create_new_folder_white_24dp"
+        android:title="folder" />
+    <item android:id="@+id/action_add_site"
+        android:icon="@drawable/ic_add_white_24dp"
+        app:showAsAction="always"
+        android:title="Add site" />
+</menu>

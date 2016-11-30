@@ -13,12 +13,12 @@
     <string name="finished_date_text">Task finished on : %1$s</string>
     <string name="trip_reasons_text">Trip reasons : %1$s</string>
     <string name="actions_text">Actions : %1$s</string>
-    <string name="gen_serial_text">Generator S/N : %1$s</string>
+    <string name="gen_serial_text">S/N : %1$s</string>
     <string name="comments_text">Comments : %1$s</string>
     <string name="start_time_text">Start time : %1$s</string>
     <string name="inform_time_text">Inform time : %1$s</string>
     <string name="contractor_text">Contractor : %1$s</string>
-    <string name="gen_size_text">Generator size : %1$s</string>
+    <string name="gen_size_text">Size : %1$s</string>
     <string name="tank_serial_text">Tank serial : %1$s</string>
     <string name="sync_panel_text">Sync panel :</string>
     <string name="fire_extinguisher_text">Fire extinguisher serial : %1$s</string>
@@ -55,7 +55,7 @@
     <string name="trip">Trip</string>
     <string name="sumbit">sumbit</string>
     <string name="work_permit_number">Work permit number</string>
-    <string name="field">field</string>
+    <string name="field">Fields</string>
     <string name="site">site</string>
     <string name="contractor">contractor</string>
     <string name="genrator_serial_number">Genrator serial number</string>
@@ -90,4 +90,8 @@
     <string name="alert_dialog_cancel">Cancel</string>
     <string name="choose_file_name">Choose file name</string>
     <string name="action_excel_files">Excel files</string>
+    <string name="profile">profile</string>
+    <string name="generators">Generators</string>
+    <string name="workshop">Workshop</string>
+    <string name="n_a">N/A</string>
 </resources>

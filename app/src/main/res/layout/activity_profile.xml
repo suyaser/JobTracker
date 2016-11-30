@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:text="Account"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_marginBottom="8dp"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
+
+    <Button
+        android:text="Change password"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/acc_btn"
+        android:id="@+id/changePasswordButton"
+        android:paddingLeft="8dp"
+        android:gravity="left|center_vertical" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
+
+    <Button
+        android:text="Sign out"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/acc_btn"
+        android:id="@+id/signoutButton"
+        android:paddingLeft="8dp"
+        android:gravity="left|center_vertical"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
+</LinearLayout>
