@@ -9,11 +9,10 @@ import java.util.Date;
  * Created by yasser on 11/10/2016.
  */
 
-public class Trip extends Operation implements Parcelable{
+public class Trip extends Operation implements Parcelable {
     public static final int TRIP_KEY = 3;
 
     private String Actions;
-    private String GeneratorSerial;
     private String Comments;
     private String tripReasons;
     private Date informTime;
@@ -22,12 +21,22 @@ public class Trip extends Operation implements Parcelable{
     public Trip() {
     }
 
-    public Trip(Date date, String workPermitNumber, String field, String site,
-                String actions, String generatorSerial, String comments,
-                String tripReasons, Date informTime, Date startTime) {
-        super(date, workPermitNumber, field, site, TRIP_KEY);
+    public Trip(Date date, String workPermitNumber, String actions,
+                String generator, String comments, String tripReasons,
+                Date informTime, Date startTime) {
+        super(date, workPermitNumber, generator, TRIP_KEY);
         Actions = actions;
-        GeneratorSerial = generatorSerial;
+        Comments = comments;
+        this.tripReasons = tripReasons;
+        this.informTime = informTime;
+        this.startTime = startTime;
+    }
+
+    public Trip(Date date, String workPermitNumber, String actions,
+                String comments, String tripReasons,
+                Date informTime, Date startTime) {
+        super(date, workPermitNumber, null, TRIP_KEY);
+        Actions = actions;
         Comments = comments;
         this.tripReasons = tripReasons;
         this.informTime = informTime;
@@ -35,11 +44,10 @@ public class Trip extends Operation implements Parcelable{
     }
 
     protected Trip(Parcel in) {
+        type = in.readInt();
+        generator = in.readString();
         workPermitNumber = in.readString();
-        field = in.readString();
-        site = in.readString();
         Actions = in.readString();
-        GeneratorSerial = in.readString();
         Comments = in.readString();
         tripReasons = in.readString();
         long temp = in.readLong();
@@ -69,48 +77,15 @@ public class Trip extends Operation implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(type);
+        parcel.writeString(generator);
         parcel.writeString(workPermitNumber);
-        parcel.writeString(field);
-        parcel.writeString(site);
         parcel.writeString(Actions);
-        parcel.writeString(GeneratorSerial);
         parcel.writeString(Comments);
         parcel.writeString(tripReasons);
         parcel.writeLong(date == null ? -1 : date.getTime());
         parcel.writeLong(informTime == null ? -1 : informTime.getTime());
         parcel.writeLong(startTime == null ? -1 : startTime.getTime());
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getWorkPermitNumber() {
-        return workPermitNumber;
-    }
-
-    public void setWorkPermitNumber(String workPermitNumber) {
-        this.workPermitNumber = workPermitNumber;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getSite() {
-        return site;
-    }
-
-    public void setSite(String site) {
-        this.site = site;
     }
 
     public String getActions() {
@@ -119,14 +94,6 @@ public class Trip extends Operation implements Parcelable{
 
     public void setActions(String actions) {
         Actions = actions;
-    }
-
-    public String getGeneratorSerial() {
-        return GeneratorSerial;
-    }
-
-    public void setGeneratorSerial(String generatorSerial) {
-        GeneratorSerial = generatorSerial;
     }
 
     public String getComments() {
@@ -161,8 +128,4 @@ public class Trip extends Operation implements Parcelable{
         this.startTime = startTime;
     }
 
-    @Override
-    public int getType(){
-        return TRIP_KEY;
-    }
 }

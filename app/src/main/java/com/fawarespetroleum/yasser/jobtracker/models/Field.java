@@ -3,6 +3,7 @@ package com.fawarespetroleum.yasser.jobtracker.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,8 +15,6 @@ public class Field implements Parcelable {
     String mFieldName;
     String mSiteName;
     String mContractor;
-    List<Generator> mGenerators;
-    List<Install> mHistory;
 
     public Field(String mFieldName, String mSiteName, String mContractor) {
         this.mFieldName = mFieldName;
@@ -25,6 +24,24 @@ public class Field implements Parcelable {
 
     public Field() {
     }
+
+    protected Field(Parcel in) {
+        mFieldName = in.readString();
+        mSiteName = in.readString();
+        mContractor = in.readString();
+    }
+
+    public static final Creator<Field> CREATOR = new Creator<Field>() {
+        @Override
+        public Field createFromParcel(Parcel in) {
+            return new Field(in);
+        }
+
+        @Override
+        public Field[] newArray(int size) {
+            return new Field[size];
+        }
+    };
 
     public String getmFieldName() {
         return mFieldName;
@@ -50,41 +67,11 @@ public class Field implements Parcelable {
         this.mContractor = mContractor;
     }
 
-    public List<Install> getmHistory() {
-        return mHistory;
+
+    @Override
+    public String toString() {
+        return mSiteName + "_" + mFieldName;
     }
-
-    public void setmHistory(List<Install> mHistory) {
-        this.mHistory = mHistory;
-    }
-
-    public List<Generator> getmGenerators() {
-        return mGenerators;
-    }
-
-    public void setmGenerators(List<Generator> mGenerators) {
-        this.mGenerators = mGenerators;
-    }
-
-    protected Field(Parcel in) {
-        mFieldName = in.readString();
-        mSiteName = in.readString();
-        mContractor = in.readString();
-        mHistory = in.createTypedArrayList(Install.CREATOR);
-        mGenerators = in.createTypedArrayList(Generator.CREATOR);
-    }
-
-    public static final Creator<Field> CREATOR = new Creator<Field>() {
-        @Override
-        public Field createFromParcel(Parcel in) {
-            return new Field(in);
-        }
-
-        @Override
-        public Field[] newArray(int size) {
-            return new Field[size];
-        }
-    };
 
     @Override
     public int describeContents() {
@@ -96,12 +83,5 @@ public class Field implements Parcelable {
         parcel.writeString(mFieldName);
         parcel.writeString(mSiteName);
         parcel.writeString(mContractor);
-        parcel.writeTypedList(mHistory);
-        parcel.writeTypedList(mGenerators);
-    }
-
-    @Override
-    public String toString() {
-        return mSiteName + "_" + mFieldName;
     }
 }

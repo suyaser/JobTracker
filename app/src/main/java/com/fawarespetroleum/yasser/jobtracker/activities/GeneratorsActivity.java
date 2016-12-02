@@ -3,6 +3,7 @@ package com.fawarespetroleum.yasser.jobtracker.activities;
 import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.fawarespetroleum.yasser.jobtracker.R;
 import com.fawarespetroleum.yasser.jobtracker.adapters.FieldListAdapter;
 import com.fawarespetroleum.yasser.jobtracker.adapters.GeneratorListAdapter;
 import com.fawarespetroleum.yasser.jobtracker.fragments.AddSiteDialog;
+import com.fawarespetroleum.yasser.jobtracker.fragments.GeneratorsListFragment;
 import com.fawarespetroleum.yasser.jobtracker.models.Field;
 import com.fawarespetroleum.yasser.jobtracker.models.Generator;
 import com.google.firebase.database.ChildEventListener;
@@ -35,15 +37,8 @@ public class GeneratorsActivity extends AppCompatActivity implements GeneratorLi
 
     @BindView(R.id.MenuBar)
     Toolbar mToolBar;
-    @BindView(R.id.generatorsRecyclerView)
-    RecyclerView mGeneratorsRecyclerView;
-
-    ArrayList<Generator> mGenerators;
-    GeneratorListAdapter adapter;
 
     Unbinder unbinder;
-
-    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,47 +51,17 @@ public class GeneratorsActivity extends AppCompatActivity implements GeneratorLi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        mGenerators = new ArrayList<>();
-        adapter = new GeneratorListAdapter(this, mGenerators);
+        FragmentManager fm = getSupportFragmentManager();
+        GeneratorsListFragment fragment = new GeneratorsListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(GeneratorsListFragment.QUERY_TYPE, GeneratorsListFragment.GENERATORS_ALL);
+        fragment.setArguments(bundle);
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.add(R.id.generatorListFragment, fragment);
+        fragmentTransaction.commit();
 
-        mGeneratorsRecyclerView.setAdapter(adapter);
-        mGeneratorsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        mDatabase = FirebaseDatabase.getInstance().getReference("generators");
-        Query query = mDatabase;
-
-        queryDB(query);
     }
 
-    private void queryDB(Query query) {
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                mGenerators.add(dataSnapshot.getValue(Generator.class));
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,9 +90,9 @@ public class GeneratorsActivity extends AppCompatActivity implements GeneratorLi
     }
 
     @Override
-    public void startGenActivity(int position) {
+    public void startGenActivity(Generator generator) {
         Intent i = new Intent(this, GeneratorActivity.class);
-        i.putExtra(GeneratorActivity.GENERATOR_KEY, mGenerators.get(position));
+        i.putExtra(GeneratorActivity.GENERATOR_KEY, generator);
         startActivity(i);
     }
 }

@@ -3,6 +3,7 @@ package com.fawarespetroleum.yasser.jobtracker.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,11 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.fawarespetroleum.yasser.jobtracker.R;
 import com.fawarespetroleum.yasser.jobtracker.adapters.GeneratorListAdapter;
 import com.fawarespetroleum.yasser.jobtracker.fragments.AddGeneratorDialog;
 import com.fawarespetroleum.yasser.jobtracker.fragments.AddSiteDialog;
+import com.fawarespetroleum.yasser.jobtracker.fragments.GeneratorsListFragment;
 import com.fawarespetroleum.yasser.jobtracker.models.Generator;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -32,18 +35,13 @@ import butterknife.Unbinder;
 /**
  * Created by yasser on 13/11/2016.
  */
-public class WorkshopActivity extends AppCompatActivity implements AddGeneratorDialog.OnAddGeneratorDialogListener, GeneratorListAdapter.OnGenClickListener{
+public class WorkshopActivity extends AppCompatActivity implements AddGeneratorDialog.OnAddGeneratorDialogListener, GeneratorListAdapter.OnGenClickListener {
 
     @BindView(R.id.MenuBar)
     Toolbar mToolBar;
-    @BindView(R.id.generatorsRecyclerView)
-    RecyclerView mGeneratorsRecyclerView;
-
-    ArrayList<Generator> mGenerators;
-    GeneratorListAdapter adapter;
 
     Unbinder unbinder;
-    DatabaseReference mDatabase;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,47 +54,19 @@ public class WorkshopActivity extends AppCompatActivity implements AddGeneratorD
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        mGenerators = new ArrayList<>();
-        adapter = new GeneratorListAdapter(this, mGenerators);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("generators");
 
-        mGeneratorsRecyclerView.setAdapter(adapter);
-        mGeneratorsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        FragmentManager fm = getSupportFragmentManager();
+        GeneratorsListFragment fragment = new GeneratorsListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(GeneratorsListFragment.QUERY_TYPE, GeneratorsListFragment.WORKSHOP_GENERATORS);
+        fragment.setArguments(bundle);
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.add(R.id.generatorListFragment, fragment);
+        fragmentTransaction.commit();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("generators");
-        Query query = mDatabase.orderByChild("inWorkshop").equalTo(true);
-
-        queryDB(query);
     }
 
-    private void queryDB(Query query) {
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                mGenerators.add(dataSnapshot.getValue(Generator.class));
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     @Override
     protected void onDestroy() {
@@ -141,9 +111,9 @@ public class WorkshopActivity extends AppCompatActivity implements AddGeneratorD
     }
 
     @Override
-    public void startGenActivity(int position) {
+    public void startGenActivity(Generator generator) {
         Intent i = new Intent(this, GeneratorActivity.class);
-        i.putExtra(GeneratorActivity.GENERATOR_KEY, mGenerators.get(position));
+        i.putExtra(GeneratorActivity.GENERATOR_KEY, generator);
         startActivity(i);
     }
 }

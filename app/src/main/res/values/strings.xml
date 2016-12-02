@@ -20,9 +20,9 @@
     <string name="contractor_text">Contractor : %1$s</string>
     <string name="gen_size_text">Size : %1$s</string>
     <string name="tank_serial_text">Tank serial : %1$s</string>
-    <string name="sync_panel_text">Sync panel :</string>
-    <string name="fire_extinguisher_text">Fire extinguisher serial : %1$s</string>
-    <string name="fe_expiry_text">Fire extinguisher expiry date : %1$s</string>
+    <string name="sync_panel_text">Sync panel : %1$s</string>
+    <string name="fire_extinguisher_text">FE S/N : %1$s</string>
+    <string name="fe_expiry_text">FE exp date : %1$s</string>
     <string name="rhs_text">RHS : %1$s</string>
     <string name="oil_pressure_text">Oil pressure : %1$s</string>
     <string name="temp_text">Temperature : %1$s</string>
@@ -94,4 +94,5 @@
     <string name="generators">Generators</string>
     <string name="workshop">Workshop</string>
     <string name="n_a">N/A</string>
+    <string name="operation_history">Operation history</string>
 </resources>

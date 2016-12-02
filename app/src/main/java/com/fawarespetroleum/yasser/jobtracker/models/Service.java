@@ -9,11 +9,10 @@ import java.util.Date;
  * Created by yasser on 11/10/2016.
  */
 
-public class Service extends Operation implements Parcelable{
+public class Service extends Operation implements Parcelable {
     public static final int SERVICE_KEY = 2;
 
     private String Actions;
-    private String GeneratorSerial;
     private String Comments;
     private int RHS;
     private int oilPressure;
@@ -25,12 +24,25 @@ public class Service extends Operation implements Parcelable{
     public Service() {
     }
 
-    public Service(Date date, String workPermitNumber, String field, String site,
-                   String actions, String generatorSerial, String comments, int RHS,
-                   int oilPressure, int temp, int l2lVoltage, int HZ, int batteryCharge) {
-        super(date, workPermitNumber, field, site, SERVICE_KEY);
+    public Service(Date date, String workPermitNumber, String actions, String generator
+            , String comments, int RHS, int oilPressure, int temp
+            , int l2lVoltage, int HZ, int batteryCharge) {
+        super(date, workPermitNumber, generator, SERVICE_KEY);
         Actions = actions;
-        GeneratorSerial = generatorSerial;
+        Comments = comments;
+        this.RHS = RHS;
+        this.oilPressure = oilPressure;
+        this.temp = temp;
+        this.l2lVoltage = l2lVoltage;
+        this.HZ = HZ;
+        this.batteryCharge = batteryCharge;
+    }
+
+    public Service(Date date, String workPermitNumber, String actions
+            , String comments, int RHS, int oilPressure, int temp
+            , int l2lVoltage, int HZ, int batteryCharge) {
+        super(date, workPermitNumber, null, SERVICE_KEY);
+        Actions = actions;
         Comments = comments;
         this.RHS = RHS;
         this.oilPressure = oilPressure;
@@ -41,11 +53,10 @@ public class Service extends Operation implements Parcelable{
     }
 
     protected Service(Parcel in) {
+        type = in.readInt();
         workPermitNumber = in.readString();
-        field = in.readString();
-        site = in.readString();
+        generator = in.readString();
         Actions = in.readString();
-        GeneratorSerial = in.readString();
         Comments = in.readString();
         RHS = in.readInt();
         oilPressure = in.readInt();
@@ -76,11 +87,10 @@ public class Service extends Operation implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(type);
         parcel.writeString(workPermitNumber);
-        parcel.writeString(field);
-        parcel.writeString(site);
+        parcel.writeString(generator);
         parcel.writeString(Actions);
-        parcel.writeString(GeneratorSerial);
         parcel.writeString(Comments);
         parcel.writeInt(RHS);
         parcel.writeInt(oilPressure);
@@ -91,52 +101,12 @@ public class Service extends Operation implements Parcelable{
         parcel.writeLong(date == null ? -1 : date.getTime());
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getWorkPermitNumber() {
-        return workPermitNumber;
-    }
-
-    public void setWorkPermitNumber(String workPermitNumber) {
-        this.workPermitNumber = workPermitNumber;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getSite() {
-        return site;
-    }
-
-    public void setSite(String site) {
-        this.site = site;
-    }
-
     public String getActions() {
         return Actions;
     }
 
     public void setActions(String actions) {
         Actions = actions;
-    }
-
-    public String getGeneratorSerial() {
-        return GeneratorSerial;
-    }
-
-    public void setGeneratorSerial(String generatorSerial) {
-        GeneratorSerial = generatorSerial;
     }
 
     public String getComments() {
@@ -195,8 +165,4 @@ public class Service extends Operation implements Parcelable{
         this.batteryCharge = batteryCharge;
     }
 
-    @Override
-    public int getType(){
-        return SERVICE_KEY;
-    }
 }

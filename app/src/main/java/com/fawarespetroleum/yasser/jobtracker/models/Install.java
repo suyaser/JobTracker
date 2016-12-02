@@ -9,12 +9,10 @@ import java.util.Date;
  * Created by yasser on 11/10/2016.
  */
 
-public class Install extends Operation implements Parcelable{
+public class Install extends Operation implements Parcelable {
     public static final int INSTALL_KEY = 1;
 
-    private String contractor;
-    private String generatorSerial;
-    private int generatorSize;
+    private String field;
     private String tankSerial;
     private String syncPanel;
     private String fireExtinguisher;
@@ -24,13 +22,22 @@ public class Install extends Operation implements Parcelable{
     public Install() {
     }
 
-    public Install(Date date, String workPermitNumber, String field, String site, String contractor,
-                   String generatorSerial, int generatorSize, String tankSerial, String syncPanel,
+    public Install(Date date, String workPermitNumber, String field,
+                   String generator, String tankSerial, String syncPanel,
                    String fireExtinguisher, Date FEExpiryDate, String comments) {
-        super(date, workPermitNumber, field, site, INSTALL_KEY);
-        this.contractor = contractor;
-        this.generatorSerial = generatorSerial;
-        this.generatorSize = generatorSize;
+        super(date, workPermitNumber, generator, INSTALL_KEY);
+        this.field = field;
+        this.tankSerial = tankSerial;
+        this.syncPanel = syncPanel;
+        this.fireExtinguisher = fireExtinguisher;
+        this.FEExpiryDate = FEExpiryDate;
+        Comments = comments;
+    }
+
+    public Install(Date date, String workPermitNumber, String field, String tankSerial, String syncPanel,
+                   String fireExtinguisher, Date FEExpiryDate, String comments) {
+        super(date, workPermitNumber, null, INSTALL_KEY);
+        this.field = field;
         this.tankSerial = tankSerial;
         this.syncPanel = syncPanel;
         this.fireExtinguisher = fireExtinguisher;
@@ -39,12 +46,10 @@ public class Install extends Operation implements Parcelable{
     }
 
     public Install(Parcel in) {
+        type = in.readInt();
         workPermitNumber = in.readString();
+        generator = in.readString();
         field = in.readString();
-        site = in.readString();
-        contractor = in.readString();
-        generatorSerial = in.readString();
-        generatorSize = in.readInt();
         tankSerial = in.readString();
         syncPanel = in.readString();
         fireExtinguisher = in.readString();
@@ -74,34 +79,16 @@ public class Install extends Operation implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(type);
         parcel.writeString(workPermitNumber);
+        parcel.writeString(generator);
         parcel.writeString(field);
-        parcel.writeString(site);
-        parcel.writeString(contractor);
-        parcel.writeString(generatorSerial);
-        parcel.writeInt(generatorSize);
         parcel.writeString(tankSerial);
         parcel.writeString(syncPanel);
         parcel.writeString(fireExtinguisher);
         parcel.writeString(Comments);
         parcel.writeLong(date != null ? date.getTime() : -1);
         parcel.writeLong(FEExpiryDate != null ? FEExpiryDate.getTime() : -1);
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getWorkPermitNumber() {
-        return workPermitNumber;
-    }
-
-    public void setWorkPermitNumber(String workPermitNumber) {
-        this.workPermitNumber = workPermitNumber;
     }
 
     public String getField() {
@@ -112,37 +99,6 @@ public class Install extends Operation implements Parcelable{
         this.field = field;
     }
 
-    public String getSite() {
-        return site;
-    }
-
-    public void setSite(String site) {
-        this.site = site;
-    }
-
-    public String getContractor() {
-        return contractor;
-    }
-
-    public void setContractor(String contractor) {
-        this.contractor = contractor;
-    }
-
-    public String getGeneratorSerial() {
-        return generatorSerial;
-    }
-
-    public void setGeneratorSerial(String generatorSerial) {
-        this.generatorSerial = generatorSerial;
-    }
-
-    public int getGeneratorSize() {
-        return generatorSize;
-    }
-
-    public void setGeneratorSize(int generatorSize) {
-        this.generatorSize = generatorSize;
-    }
 
     public String getTankSerial() {
         return tankSerial;
@@ -184,8 +140,4 @@ public class Install extends Operation implements Parcelable{
         Comments = comments;
     }
 
-    @Override
-    public int getType(){
-        return INSTALL_KEY;
-    }
 }

@@ -133,7 +133,7 @@ public class FieldsActivity extends AppCompatActivity implements AddSiteDialog.O
     public void onAddSite(String site, String contractor) {
         String[] sit = site.split("_");
         Field field = new Field(sit[1], sit[0], contractor);
-        mDatabase.push().setValue(field);
+        mDatabase.child(field.toString()).setValue(field);
     }
 
     @Override

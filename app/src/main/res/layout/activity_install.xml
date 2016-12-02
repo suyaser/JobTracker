@@ -5,19 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/MenuBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="6dp"
-            app:titleTextColor="@android:color/white" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +29,7 @@
                 tools:ignore="DisableBaselineAlignment">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/FieldEditText"
+                    android:id="@+id/fieldEditText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
@@ -155,5 +142,4 @@
                     android:hint="@string/comments" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
-    </LinearLayout>
 </ScrollView>

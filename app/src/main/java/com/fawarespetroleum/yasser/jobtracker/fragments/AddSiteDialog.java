@@ -100,7 +100,7 @@ public class AddSiteDialog extends DialogFragment {
             mListener = (OnAddSiteDialogListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnAddGeneratorDialogListener");
+                    + " must implement OnTripGeneratorDialogListener");
         }
     }
 

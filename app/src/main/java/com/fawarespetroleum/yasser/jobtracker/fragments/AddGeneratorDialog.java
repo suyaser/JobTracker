@@ -15,8 +15,6 @@ import com.fawarespetroleum.yasser.jobtracker.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.regex.Pattern;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -26,7 +24,7 @@ import butterknife.Unbinder;
  */
 public class AddGeneratorDialog extends DialogFragment {
 
-    @BindView(R.id.generatorSerialEditText)
+    @BindView(R.id.fieldEditText)
     EditText mGeneratorSerialEditText;
     @BindView(R.id.generatorSizeEditText)
     EditText mGeneratorSizeEditText;
@@ -93,7 +91,7 @@ public class AddGeneratorDialog extends DialogFragment {
             mListener = (OnAddGeneratorDialogListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnAddGeneratorDialogListener");
+                    + " must implement OnTripGeneratorDialogListener");
         }
     }
 

@@ -10,14 +10,14 @@ import java.util.Date;
  */
 public class Generator implements Parcelable {
 
-    String mSerial;
-    int mSize;
-    String tankSerial;
-    String syncPanel;
-    String fireExtinguisher;
-    Date FEExpiryDate;
-    Boolean inWorkshop;
-    Field site;
+    private String mSerial;
+    private int mSize;
+    private String tankSerial;
+    private String syncPanel;
+    private String fireExtinguisher;
+    private Date FEExpiryDate;
+    private Boolean inWorkshop;
+    private String site;
 
     public Generator() {
 
@@ -36,9 +36,10 @@ public class Generator implements Parcelable {
         tankSerial = in.readString();
         syncPanel = in.readString();
         fireExtinguisher = in.readString();
-        FEExpiryDate = new Date(in.readLong());
+        Long temp = in.readLong();
+        FEExpiryDate = temp == 0 ? null : new Date(temp);
         inWorkshop = in.readInt() == 1;
-        site = in.readParcelable(Field.class.getClassLoader());
+        site = in.readString();
     }
 
     public static final Creator<Generator> CREATOR = new Creator<Generator>() {
@@ -53,11 +54,11 @@ public class Generator implements Parcelable {
         }
     };
 
-    public Field getSite() {
+    public String getSite() {
         return site;
     }
 
-    public void setSite(Field site) {
+    public void setSite(String site) {
         this.site = site;
     }
 
@@ -129,8 +130,17 @@ public class Generator implements Parcelable {
         parcel.writeString(tankSerial);
         parcel.writeString(syncPanel);
         parcel.writeString(fireExtinguisher);
-        parcel.writeLong(FEExpiryDate.getTime());
+        parcel.writeLong(FEExpiryDate == null ? 0 : FEExpiryDate.getTime());
         parcel.writeInt(inWorkshop ? 1 : 0);
-        parcel.writeParcelable(site, i);
+        parcel.writeString(site);
+    }
+
+    public void install(Install install) {
+        tankSerial = install.getTankSerial();
+        syncPanel = install.getSyncPanel();
+        fireExtinguisher = install.getFireExtinguisher();
+        FEExpiryDate = install.getFEExpiryDate();
+        inWorkshop = false;
+        site = install.getField();
     }
 }

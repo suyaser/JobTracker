@@ -9,15 +9,13 @@ import java.util.Date;
 public class Operation {
     Date date;
     String workPermitNumber;
-    String field;
-    String site;
+    String generator;
     int type;
 
-    public Operation(Date date, String workPermitNumber, String field, String site, int type) {
+    public Operation(Date date, String workPermitNumber, String generator, int type) {
         this.date = date;
         this.workPermitNumber = workPermitNumber;
-        this.field = field;
-        this.site = site;
+        this.generator = generator;
         this.type = type;
     }
 
@@ -39,20 +37,16 @@ public class Operation {
         this.workPermitNumber = workPermitNumber;
     }
 
-    public String getField() {
-        return field;
+    public String getGenerator() {
+        return generator;
     }
 
-    public void setField(String field) {
-        this.field = field;
+    public void setGenerator(String generator) {
+        this.generator = generator;
     }
 
-    public String getSite() {
-        return site;
-    }
-
-    public void setSite(String site) {
-        this.site = site;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getType(){

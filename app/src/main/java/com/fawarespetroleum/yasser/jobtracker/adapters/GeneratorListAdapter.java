@@ -84,11 +84,11 @@ public class GeneratorListAdapter extends RecyclerView.Adapter<GeneratorListAdap
 
         @Override
         public void onClick(View view) {
-            mListener.startGenActivity(getAdapterPosition());
+            mListener.startGenActivity(mGenerator.get(getAdapterPosition()));
         }
     }
 
     public interface OnGenClickListener {
-        void startGenActivity(int position);
+        void startGenActivity(Generator generator);
     }
 }
