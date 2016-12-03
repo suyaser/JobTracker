@@ -48,7 +48,7 @@ public class ExcelNamerDialog extends DialogFragment {
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mExcelEditText.getEditText().getText().toString().trim().matches("")) {
+                if (mExcelEditText.getEditText().getText().toString().trim().isEmpty()) {
                     dismiss();
                 }else{
                     mListener.onDialogInteraction(mExcelEditText.getEditText().getText().toString().trim());

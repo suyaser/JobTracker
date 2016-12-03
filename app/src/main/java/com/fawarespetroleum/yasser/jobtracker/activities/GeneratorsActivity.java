@@ -1,33 +1,19 @@
 package com.fawarespetroleum.yasser.jobtracker.activities;
 
 import android.content.Intent;
-import android.support.annotation.IntDef;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.fawarespetroleum.yasser.jobtracker.R;
-import com.fawarespetroleum.yasser.jobtracker.adapters.FieldListAdapter;
 import com.fawarespetroleum.yasser.jobtracker.adapters.GeneratorListAdapter;
-import com.fawarespetroleum.yasser.jobtracker.fragments.AddSiteDialog;
 import com.fawarespetroleum.yasser.jobtracker.fragments.GeneratorsListFragment;
-import com.fawarespetroleum.yasser.jobtracker.models.Field;
 import com.fawarespetroleum.yasser.jobtracker.models.Generator;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,10 +66,9 @@ public class GeneratorsActivity extends AppCompatActivity implements GeneratorLi
 //                adapter.notifyDataSetChanged();
 //                queryDB(query);
                 return true;
-//            case R.id.action_excel_files:
-//                Intent i = new Intent(this, ExcelFilesActivity.class);
-//                startActivity(i);
-//                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

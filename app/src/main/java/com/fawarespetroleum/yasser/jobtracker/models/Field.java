@@ -3,9 +3,6 @@ package com.fawarespetroleum.yasser.jobtracker.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by yasser on 12/11/2016.
  */

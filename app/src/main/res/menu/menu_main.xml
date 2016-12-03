@@ -2,12 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_excel"
+    <item
+        android:id="@+id/action_excel_folder"
         android:icon="@drawable/ic_folder_white_24dp"
-        app:showAsAction="always"
-        android:title="@string/action_excel_files" />
-    <item android:id="@+id/action_profile"
-        app:showAsAction="always"
+        android:title="@string/action_excel_files"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_profile"
         android:icon="@drawable/ic_person_white_24dp"
-        android:title="@string/profile" />
+        android:title="@string/profile"
+        app:showAsAction="always" />
 </menu>

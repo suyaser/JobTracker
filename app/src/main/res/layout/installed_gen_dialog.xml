@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/MenuBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="6dp"
-            app:titleTextColor="@android:color/white" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,20 +17,6 @@
                 android:layout_marginBottom="8dp" />
 
             <TextView
-                android:id="@+id/SiteLocationTextView"
-                style="@android:style/TextAppearance.Large"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:id="@+id/ContractorTextView"
-                style="@android:style/TextAppearance.Large"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
                 android:id="@+id/GenSetSerialTextView"
                 style="@android:style/TextAppearance.Large"
                 android:layout_width="match_parent"
@@ -53,14 +24,7 @@
                 android:layout_marginBottom="8dp" />
 
             <TextView
-                android:id="@+id/GenSetSizeTextView"
-                style="@android:style/TextAppearance.Large"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:id="@+id/TankSerialTextView"
+                android:id="@+id/tankSerialTextView"
                 style="@android:style/TextAppearance.Large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,5 +59,4 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp" />
         </LinearLayout>
-    </LinearLayout>
 </ScrollView>

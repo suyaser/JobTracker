@@ -44,10 +44,10 @@ public class GeneratorListAdapter extends RecyclerView.Adapter<GeneratorListAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Generator generator = mGenerator.get(position);
-        holder.mGeneratorsSerialTextView.setText(String.format(activity.getString(R.string.gen_serial_text,generator.getmSerial())));
-        holder.mGeneratorsSizeTextView.setText(String.format(activity.getString(R.string.gen_size_text,String.valueOf(generator.getmSize()))));
-        holder.mGeneratorsLocationTextView.setText(String.format(activity.getString(R.string.site_location_text,
-                generator.isInWorkshop() ? "Workshop" : generator.getSite().toString())));
+        holder.mGeneratorsSerialTextView.setText(activity.getString(R.string.gen_serial_text,generator.getmSerial()));
+        holder.mGeneratorsSizeTextView.setText(activity.getString(R.string.gen_size_text,String.valueOf(generator.getmSize())));
+        holder.mGeneratorsLocationTextView.setText(activity.getString(R.string.site_location_text,
+                generator.isInWorkshop() ? "Workshop" : generator.getSite()));
     }
 
     public void unbind(){

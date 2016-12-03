@@ -10,8 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import com.fawarespetroleum.yasser.jobtracker.R;
 import com.fawarespetroleum.yasser.jobtracker.adapters.FieldListAdapter;
@@ -101,7 +99,7 @@ public class FieldsActivity extends AppCompatActivity implements AddSiteDialog.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_search, menu);
+        inflater.inflate(R.menu.menu_search_add, menu);
         return true;
     }
 
@@ -109,7 +107,7 @@ public class FieldsActivity extends AppCompatActivity implements AddSiteDialog.O
     public boolean onOptionsItemSelected(MenuItem item) {
         FragmentManager fm;
         switch (item.getItemId()) {
-            case R.id.action_add_site:
+            case R.id.action_add:
                 fm = getSupportFragmentManager();
                 AddSiteDialog addSiteDialog = new AddSiteDialog();
                 addSiteDialog.show(fm, "add_site");
@@ -120,10 +118,9 @@ public class FieldsActivity extends AppCompatActivity implements AddSiteDialog.O
 //                adapter.notifyDataSetChanged();
 //                queryDB(query);
                 return true;
-//            case R.id.action_excel_files:
-//                Intent i = new Intent(this, ExcelFilesActivity.class);
-//                startActivity(i);
-//                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

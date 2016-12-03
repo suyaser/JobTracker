@@ -11,13 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity" />
-        <activity
-            android:name=".activities.InstallActivity"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
+        <activity android:name=".activities.InstallActivity" />
         <activity android:name=".activities.SignupActivity" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
@@ -26,48 +20,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.ServiceActivity"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.TripActivity"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.InstalledActivity"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.ServicedActivity"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.TripedActivity"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".activities.ExcelFilesActivity"
-            android:theme="@style/AppThemeActionBar" />
+        <activity android:name=".activities.ServiceActivity" />
+        <activity android:name=".activities.TripActivity" />
+        <activity android:name=".activities.InstalledActivity" />
+        <activity android:name=".activities.ServicedActivity" />
+        <activity android:name=".activities.TripedActivity" />
+        <activity android:name=".activities.ExcelFilesActivity" />
         <activity
             android:name=".activities.ProfileActivity"
             android:theme="@style/AppThemeActionBar" />
         <activity android:name=".activities.FieldsActivity" />
+
+        <activity android:name=".activities.GeneratorsActivity" />
+        <activity android:name=".activities.WorkshopActivity" />
+        <activity android:name=".activities.GeneratorActivity" />
+        <activity android:name=".activities.FieldActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -79,10 +46,6 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <activity android:name=".activities.GeneratorsActivity"></activity>
-        <activity android:name=".activities.WorkshopActivity"></activity>
-        <activity android:name=".activities.GeneratorActivity"></activity>
-        <activity android:name=".activities.FieldActivity"></activity>
     </application>
 
 </manifest>

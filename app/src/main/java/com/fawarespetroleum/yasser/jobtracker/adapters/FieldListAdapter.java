@@ -1,8 +1,6 @@
 package com.fawarespetroleum.yasser.jobtracker.adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,8 +12,6 @@ import com.fawarespetroleum.yasser.jobtracker.R;
 import com.fawarespetroleum.yasser.jobtracker.models.Field;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

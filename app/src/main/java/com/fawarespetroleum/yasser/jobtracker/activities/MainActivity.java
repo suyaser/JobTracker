@@ -115,11 +115,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        FragmentManager fm;
         switch (item.getItemId()) {
             case R.id.action_profile:
                 Intent i = new Intent(this, ProfileActivity.class);
                 startActivity(i);
+                return true;
+            case R.id.action_excel_folder:
+                Intent x = new Intent(this, ExcelFilesActivity.class);
+                startActivity(x);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
