@@ -1,16 +1,25 @@
 package com.fawarespetroleum.yasser.jobtracker.activities;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,11 +39,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import jxl.write.WriteException;
 
-/**
- * Created by yasser on 21/10/2016.
- */
 public class ExcelFilesActivity extends AppCompatActivity implements ExcelFilesListAdapter.OnFileClickListener, ExcelNamerDialog.OnDialogInteractionListener {
 
     @BindView(R.id.MenuBar)
@@ -103,17 +108,11 @@ public class ExcelFilesActivity extends AppCompatActivity implements ExcelFilesL
                 ExcelFilesActivity.this,
                 "com.fawarespetroleum.yasser.jobtracker.fileprovider",
                 file);
-        intent.addFlags(
-                Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setDataAndType(
                 fileUri,
                 getContentResolver().getType(fileUri));
-        PackageManager packageManager = getPackageManager();
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "No apps found to open excel sheet", Toast.LENGTH_SHORT).show();
-        }
+        startActivity(Intent.createChooser(intent, "Send email..."));
 
     }
 
@@ -125,44 +124,33 @@ public class ExcelFilesActivity extends AppCompatActivity implements ExcelFilesL
                 ExcelFilesActivity.this,
                 "com.fawarespetroleum.yasser.jobtracker.fileprovider",
                 file);
-        intent.addFlags(
-                Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setDataAndType(
-                fileUri,
-                getContentResolver().getType(fileUri));
-        intent.setType("vnd.android.cursor.dir/email");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setType(getContentResolver().getType(fileUri));
         intent.putExtra(Intent.EXTRA_STREAM, fileUri);
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Excel file");
-        PackageManager packageManager = getPackageManager();
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(Intent.createChooser(intent, "Send email..."));
-        } else {
-            Toast.makeText(this, "No apps found to share the excel", Toast.LENGTH_SHORT).show();
-        }
+        startActivity(Intent.createChooser(intent, "Send email..."));
     }
 
     @Override
     public void deleteExcelFile(String fileName, int position) {
         File file = new File(mExcelFilesDir, fileName);
-        file.delete();
-        mFilesList.remove(position);
-        mExcelFilesAdapter.notifyItemRemoved(position);
+        if (file.exists()) {
+            file.delete();
+            mFilesList.remove(position);
+            mExcelFilesAdapter.notifyItemRemoved(position);
+        }
     }
 
     @Override
     public void onDialogInteraction(String excelFileName) {
-        ExcelWriter test = new ExcelWriter();
+        ExcelWriter write = new ExcelWriter();
         File path = new File(this.getFilesDir(), "excel");
         path.mkdir();
         File file = new File(path, excelFileName + ".xls");
-        test.setOutputFile(file);
         try {
-            test.write();
-            mFilesList.add(excelFileName);
+            write.createExcel(file);
+            mFilesList.add(excelFileName + ".xls");
             mExcelFilesAdapter.notifyDataSetChanged();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (WriteException e) {
             e.printStackTrace();
         }
     }

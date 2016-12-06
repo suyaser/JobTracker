@@ -35,7 +35,6 @@
         <activity android:name=".activities.WorkshopActivity" />
         <activity android:name=".activities.GeneratorActivity" />
         <activity android:name=".activities.FieldActivity" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.fawarespetroleum.yasser.jobtracker.fileprovider"

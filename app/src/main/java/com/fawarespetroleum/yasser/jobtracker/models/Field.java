@@ -22,6 +22,7 @@ public class Field implements Parcelable {
     public Field() {
     }
 
+
     protected Field(Parcel in) {
         mFieldName = in.readString();
         mSiteName = in.readString();
@@ -39,6 +40,16 @@ public class Field implements Parcelable {
             return new Field[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return mSiteName + "_" + mFieldName;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     public String getmFieldName() {
         return mFieldName;
@@ -64,21 +75,12 @@ public class Field implements Parcelable {
         this.mContractor = mContractor;
     }
 
-
-    @Override
-    public String toString() {
-        return mSiteName + "_" + mFieldName;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(mFieldName);
         parcel.writeString(mSiteName);
         parcel.writeString(mContractor);
     }
+
+
 }

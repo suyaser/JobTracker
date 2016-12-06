@@ -3,6 +3,7 @@ package com.fawarespetroleum.yasser.jobtracker.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -18,6 +19,7 @@ public class Generator implements Parcelable {
     private Date FEExpiryDate;
     private Boolean inWorkshop;
     private String site;
+    private String contractor;
 
     public Generator() {
 

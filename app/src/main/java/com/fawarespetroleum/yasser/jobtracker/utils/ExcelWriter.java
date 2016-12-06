@@ -1,124 +1,278 @@
 package com.fawarespetroleum.yasser.jobtracker.utils;
 
+import android.util.Log;
+
+import com.fawarespetroleum.yasser.jobtracker.models.Field;
+import com.fawarespetroleum.yasser.jobtracker.models.Generator;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Locale;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import jxl.CellView;
-import jxl.Workbook;
-import jxl.WorkbookSettings;
-import jxl.format.UnderlineStyle;
-import jxl.write.Formula;
-import jxl.write.Label;
-import jxl.write.Number;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-
-/**
- * Created by yasser on 21/10/2016.
- */
 
 public class ExcelWriter {
-    private WritableCellFormat timesBoldUnderline;
-    private WritableCellFormat times;
-    private File inputFile;
 
-    public void setOutputFile(File inputFile) {
-        this.inputFile = inputFile;
-    }
+    private static final String[] titles = {
+            "Cont", "Site", "S/N", "KVA", "Start", "Tank", "Sync Panel", "Comment", "History"};
+    private DatabaseReference mDatabase;
+    private ArrayList<Generator> mGeneratorsList;
+    Sheet sheet;
+    private Field mfield;
+    private Row row;
+    private Cell cell;
+    private HSSFWorkbook wb;
+    File file;
 
-    public void write() throws IOException, WriteException {
-        WorkbookSettings wbSettings = new WorkbookSettings();
+    public void createExcel(File file) throws IOException {
 
-        wbSettings.setLocale(new Locale("en", "EN"));
+        this.file = file;
+        wb = new HSSFWorkbook();
 
-        WritableWorkbook workbook = Workbook.createWorkbook(inputFile, wbSettings);
-        workbook.createSheet("Report", 0);
-        WritableSheet excelSheet = workbook.getSheet(0);
-        createLabel(excelSheet);
-        createContent(excelSheet);
+        Map<String, CellStyle> styles = createStyles(wb);
 
-        workbook.write();
-        workbook.close();
-    }
+        sheet = wb.createSheet("Business Plan");
 
-    private void createLabel(WritableSheet sheet)
-            throws WriteException {
-        // Lets create a times font
-        WritableFont times10pt = new WritableFont(WritableFont.TIMES, 10);
-        // Define the cell format
-        times = new WritableCellFormat(times10pt);
-        // Lets automatically wrap the cells
-        times.setWrap(true);
-
-        // create create a bold font with unterlines
-        WritableFont times10ptBoldUnderline = new WritableFont(
-                WritableFont.TIMES, 10, WritableFont.BOLD, false,
-                UnderlineStyle.SINGLE);
-        timesBoldUnderline = new WritableCellFormat(times10ptBoldUnderline);
-        // Lets automatically wrap the cells
-        timesBoldUnderline.setWrap(true);
-
-        CellView cv = new CellView();
-        cv.setFormat(times);
-        cv.setFormat(timesBoldUnderline);
-        cv.setAutosize(true);
-
-        // Write a few headers
-        addCaption(sheet, 0, 0, "Header 1");
-        addCaption(sheet, 1, 0, "This is another header");
-
-
-    }
-
-    private void createContent(WritableSheet sheet) throws WriteException {
-        // Write a few number
-        for (int i = 1; i < 10; i++) {
-            // First column
-            addNumber(sheet, 0, i, i + 10);
-            // Second column
-            addNumber(sheet, 1, i, i * i);
+        //the header row: centered text in 48pt font
+        Row headerRow = sheet.createRow(0);
+        headerRow.setHeightInPoints(12.75f);
+        for (int i = 0; i < titles.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(titles[i]);
+            cell.setCellStyle(styles.get("header"));
         }
-        // Lets calculate the sum of it
-        StringBuffer buf = new StringBuffer();
-        buf.append("SUM(A2:A10)");
-        Formula f = new Formula(0, 10, buf.toString());
-        sheet.addCell(f);
-        buf = new StringBuffer();
-        buf.append("SUM(B2:B10)");
-        f = new Formula(1, 10, buf.toString());
-        sheet.addCell(f);
 
-        // now a bit of text
-        for (int i = 12; i < 20; i++) {
-            // First column
-            addLabel(sheet, 0, i, "Boring text " + i);
-            // Second column
-            addLabel(sheet, 1, i, "Another text");
+        mGeneratorsList = new ArrayList<>();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("generators").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    mGeneratorsList.add(snapshot.getValue(Generator.class));
+                    createRows(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void createRows(final int i) {
+        if (i == mGeneratorsList.size()) {
+            try {
+                FileOutputStream out = new FileOutputStream(file);
+                wb.write(out);
+                out.close();
+                wb.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+        row = sheet.createRow(i + 1);
+        if (mGeneratorsList.get(i).getSite() == null || mGeneratorsList.get(i).getSite().isEmpty()) {
+            mfield = new Field("", "", "");
+            createColumbs(i);
+            createRows(i + 1);
+        } else {
+            Query query = mDatabase.child("fields").limitToFirst(1);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for(DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                            mfield = snapshot.getValue(Field.class);
+                        }
+                        Log.d("fffff", mfield.toString());
+                        createColumbs(i);
+                        createRows(i + 1);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
-    private void addCaption(WritableSheet sheet, int column, int row, String s)
-            throws WriteException {
-        Label label;
-        label = new Label(column, row, s, timesBoldUnderline);
-        sheet.addCell(label);
+    private void createColumbs(int i) {
+        for (int j = 0; j < titles.length; j++) {
+            cell = row.createCell(j);
+            switch (j) {
+                case 0:
+                    cell.setCellValue(mfield.getmContractor().isEmpty() ? "N/A" : mfield.getmContractor());
+                    break;
+                case 1:
+                    cell.setCellValue(mfield.toString().isEmpty() ? "Workshop" : mfield.toString());
+                    break;
+                case 2:
+                    cell.setCellValue(mGeneratorsList.get(i).getmSerial());
+                    break;
+                case 3:
+                    cell.setCellValue(mGeneratorsList.get(i).getmSize());
+                    break;
+                case 4:
+                    cell.setCellValue("N/A");
+                    break;
+                case 5:
+                    cell.setCellValue(mGeneratorsList.get(i).getTankSerial().isEmpty() ? "N/A" : mGeneratorsList.get(i).getTankSerial());
+                    break;
+                case 6:
+                    cell.setCellValue(mGeneratorsList.get(i).getFireExtinguisher().isEmpty() ? "N/A" : mGeneratorsList.get(i).getFireExtinguisher());
+                    break;
+                case 7:
+                    cell.setCellValue(mGeneratorsList.get(i).getSyncPanel().isEmpty() ? "N/A" : mGeneratorsList.get(i).getSyncPanel());
+            }
+        }
     }
 
-    private void addNumber(WritableSheet sheet, int column, int row,
-                           Integer integer) throws WriteException {
-        Number number;
-        number = new Number(column, row, integer, times);
-        sheet.addCell(number);
+    private static Map<String, CellStyle> createStyles(Workbook wb) {
+        Map<String, CellStyle> styles = new HashMap<String, CellStyle>();
+        DataFormat df = wb.createDataFormat();
+
+        CellStyle style;
+        Font headerFont = wb.createFont();
+        headerFont.setBold(true);
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setFont(headerFont);
+        styles.put("header", style);
+
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setFont(headerFont);
+        style.setDataFormat(df.getFormat("d-mmm"));
+        styles.put("header_date", style);
+
+        Font font1 = wb.createFont();
+        font1.setBold(true);
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.LEFT);
+        style.setFont(font1);
+        styles.put("cell_b", style);
+
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setFont(font1);
+        styles.put("cell_b_centered", style);
+
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.RIGHT);
+        style.setFont(font1);
+        style.setDataFormat(df.getFormat("d-mmm"));
+        styles.put("cell_b_date", style);
+
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setFont(font1);
+        style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setDataFormat(df.getFormat("d-mmm"));
+        styles.put("cell_g", style);
+
+        Font font2 = wb.createFont();
+        font2.setColor(IndexedColors.BLUE.getIndex());
+        font2.setBold(true);
+        style = createBorderedStyle(wb);
+        style.setAlignment(CellStyle.ALIGN_LEFT);
+        style.setFont(font2);
+        styles.put("cell_bb", style);
+
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setFont(font1);
+        style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setDataFormat(df.getFormat("d-mmm"));
+        styles.put("cell_bg", style);
+
+        Font font3 = wb.createFont();
+        font3.setFontHeightInPoints((short) 14);
+        font3.setColor(IndexedColors.DARK_BLUE.getIndex());
+        font3.setBold(true);
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.LEFT);
+        style.setFont(font3);
+        style.setWrapText(true);
+        styles.put("cell_h", style);
+
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.LEFT);
+        style.setWrapText(true);
+        styles.put("cell_normal", style);
+
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setWrapText(true);
+        styles.put("cell_normal_centered", style);
+
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setWrapText(true);
+        style.setDataFormat(df.getFormat("d-mmm"));
+        styles.put("cell_normal_date", style);
+
+        style = createBorderedStyle(wb);
+        style.setAlignment(HorizontalAlignment.LEFT);
+        style.setIndention((short) 1);
+        style.setWrapText(true);
+        styles.put("cell_indented", style);
+
+        style = createBorderedStyle(wb);
+        style.setFillForegroundColor(IndexedColors.BLUE.getIndex());
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        styles.put("cell_blue", style);
+
+        return styles;
     }
 
-    private void addLabel(WritableSheet sheet, int column, int row, String s)
-            throws WriteException {
-        Label label;
-        label = new Label(column, row, s, times);
-        sheet.addCell(label);
+    private static CellStyle createBorderedStyle(Workbook wb) {
+        BorderStyle thin = BorderStyle.THIN;
+        short black = IndexedColors.BLACK.getIndex();
+
+        CellStyle style = wb.createCellStyle();
+        style.setBorderRight(thin);
+        style.setRightBorderColor(black);
+        style.setBorderBottom(thin);
+        style.setBottomBorderColor(black);
+        style.setBorderLeft(thin);
+        style.setLeftBorderColor(black);
+        style.setBorderTop(thin);
+        style.setTopBorderColor(black);
+        return style;
     }
+
 }
